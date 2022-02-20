@@ -31,13 +31,13 @@ printf "\e[1;36mType in your root password in the below prompt.\e[0m \n"
 passwd root
 
 # Installing necessary packages.
-printf "\e[1;36mInstalling only necessary packages to give you a minimal and fast experience!\e[0m \n"
+printf "\e[1;36mInstalling only necessary packages to give you a fast and working experience!\e[0m \n"
 pacman -S reflector
 printf "\e[1;36mEnter your country to sync arch linux mirrors.\e[0m \n"
 read country
 reflector -c $country -a 8 --sort rate --save /etc/pacman.d/mirrorlist
 sleep 1
-pacman -S grub grub-btrfs btrfs-progs efibootmgr dialog wpa_supplicant iwd mtools dosfstools ntfs-3g base-devel snapper bluez bluez-utils cups hplip xdg-utils xdg-user-dirs alsa-utils avahi gvfs nfs-utils inetutils dnsutils pipewire pipewire-alsa pipewire-pulse pipewire-jack bash-completion openssh rsync reflector acpi acpi_call bridge-utils dnsmasq vde2 openbsd-netcat iptables-nft sof-firmware nss-mdns acpid os-prober linux-zen linux-zen-headers linux-firmware firefox archlinux-keyring
+pacman -S grub grub-btrfs btrfs-progs efibootmgr dialog iwd mtools dosfstools ntfs-3g base-devel snapper bluez bluez-utils cups hplip xdg-utils xdg-user-dirs alsa-utils avahi gvfs nfs-utils inetutils dnsutils pipewire pipewire-alsa pipewire-pulse pipewire-jack bash-completion openssh rsync reflector acpi acpi_call bridge-utils dnsmasq vde2 openbsd-netcat iptables-nft sof-firmware nss-mdns acpid os-prober linux-zen linux-zen-headers linux-firmware firefox archlinux-keyring
 
 printf "\e[1;36mWhat cpu do you have? (amd, intel)\e[0m \n"
 read cpuname
@@ -46,7 +46,8 @@ then
     pacman -S --noconfirm mesa amd-ucode
 elif [ $cpuname == intel ]
 then
-    pacman -S --noconfirm mesa intel-ucode
+    pacman -S --noconfirm mesa intel-ucode thermald
+    systemctl enable thermald
 else
     echo "Could not understand the cpu name!"
 fi
@@ -56,7 +57,7 @@ printf "\e[1;36mWhat gpu do you have? (amd, nvidia, intel)\e[0m \n"
 read gpuname
 if [ $gpuname == nvidia ]
 then
-    pacman -S --noconfirm nvidia nvidia-dkms nvidia-utils nvidia-settings
+    pacman -S --noconfirm nvidia-dkms nvidia-utils nvidia-settings
 elif [ $gpuname == amd ]
 then
     pacman -S --noconfirm xf86-video-amdgpu
