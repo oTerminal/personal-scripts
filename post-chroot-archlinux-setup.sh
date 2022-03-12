@@ -37,6 +37,7 @@ printf "\e[1;36mEnter your country to sync arch linux mirrors.\e[0m \n"
 read country
 reflector -c $country -a 8 --sort rate --save /etc/pacman.d/mirrorlist
 sleep 1
+pacman --noconfirm -Rns iptables
 pacman -S --noconfirm grub grub-btrfs btrfs-progs efibootmgr dialog iwd mtools dosfstools ntfs-3g base-devel snapper bluez bluez-utils cups hplip xdg-utils xdg-user-dirs alsa-utils avahi gvfs nfs-utils inetutils dnsutils pipewire pipewire-alsa pipewire-pulse pipewire-jack bash-completion openssh rsync reflector acpi acpi_call bridge-utils dnsmasq vde2 openbsd-netcat iptables-nft sof-firmware nss-mdns acpid os-prober linux-zen linux-zen-headers linux-firmware firefox archlinux-keyring
 
 printf "\e[1;36mWhat cpu do you have? (amd, intel)\e[0m \n"
@@ -109,8 +110,8 @@ systemctl enable sshd
 systemctl enable avahi-daemon
 systemctl enable reflector.timer
 systemctl enable fstrim.timer
-systemctl enable libvirtd
 systemctl enable acpid
+ln -s /run/systemd/resolve/resolv.conf /etc/resolv.conf
 
 # Services for the packages installed for Asus Laptop.
 #systemctl enable power-profiles-daemon.service
@@ -122,7 +123,7 @@ read username
 useradd -m $username
 printf "\e[1;36mType in a password for your user in the below prompt.\e[0m \n"
 passwd $username
-
+touch /etc/sudoers.d/$username
 echo "$username ALL=(ALL) ALL" >> /etc/sudoers.d/$username
 
 sleep 1
