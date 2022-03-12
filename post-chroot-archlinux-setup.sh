@@ -104,6 +104,7 @@ sleep 1
 systemctl enable systemd-networkd.service
 systemctl enable bluetooth
 systemctl enable iwd
+ln -s /run/systemd/resolve/resolv.conf /etc/resolv.conf
 systemctl enable systemd-resolved
 systemctl enable cups.service
 systemctl enable sshd
@@ -111,7 +112,6 @@ systemctl enable avahi-daemon
 systemctl enable reflector.timer
 systemctl enable fstrim.timer
 systemctl enable acpid
-ln -s /run/systemd/resolve/resolv.conf /etc/resolv.conf
 
 # Services for the packages installed for Asus Laptop.
 #systemctl enable power-profiles-daemon.service
