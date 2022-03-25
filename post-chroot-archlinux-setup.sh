@@ -1,11 +1,11 @@
 #!/bin/bash
 
 printf "\e[1;32mWelcome to my Arch Install Script!.\e[0m \n"
-sleep 1
+sleep 2
 
 # Timezone.
 printf "\e[1;36mUse your up/down arrow keys to check your timezone and press 'q' when you found your timezone. Make sure you remember it! \e[31mFor example: Europe/Dublin.\e[0m \n"
-sleep 5
+sleep 8
 timedatectl list-timezones | less
 
 echo What is your timezone? \(Case sensitive\)
@@ -65,6 +65,13 @@ then
 elif [ $gpuname == intel ]
 then
     pacman -S --noconfirm xf86-video-intel vulkan-intel
+elif [ $gpuname == vmware]
+then
+    pacman -S open-vm-tools
+elif [ $gpuname == virtualbox ]
+then
+    pacman -S virtualbox-guest-utils
+    systemctl enable vboxservice
 else
     echo "Could not understand the gpu name!"
 fi
